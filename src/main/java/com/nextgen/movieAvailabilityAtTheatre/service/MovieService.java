@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 public class MovieService {
     static WebDriver driver;
 
     public List<String> getMovieInfo(MovieInfo movieInfo) throws Exception {
-        List<String> result=new ArrayList<>();
+        List<String> result = new ArrayList<>();
         //DATA
         String location = movieInfo.getLocation();
         String movieName = movieInfo.getMovieName();
@@ -26,18 +27,18 @@ public class MovieService {
         String movieType = movieInfo.getMovieType();
         String movieLanguage = movieInfo.getMovieLanguage();
 
-        if(driver==null) {
-            driver = DriverUtils.createLocalDriver();
-            BasePageObject.setDriver(driver);
-        }
+        driver = null;
+        driver = DriverUtils.createLocalDriver();
+        BasePageObject.setDriver(driver);
+
 
         driver.get(ConfigProvider.getAsString("ApplicationUrl"));
         try {
             BasePageObject.setInputvalue("//input[@placeholder='Search for your city']", location);
             Thread.sleep(500);
             BasePageObject.clickElementJS("//strong[text()='" + location + "']");
-        }catch (Exception e)
-        {}
+        } catch (Exception e) {
+        }
         Thread.sleep(1500);
         if (BasePageObject.isPresent("//div[contains(text(),'" + movieName + "')]")) {
             BasePageObject.clickElementJS("//div[contains(text(),'" + movieName + "')]");
@@ -51,7 +52,7 @@ public class MovieService {
             List<WebElement> webElements = BasePageObject.getElements("//a[@class='__venue-name']");
             try {
                 Optional<List<String>> names = Optional.ofNullable(webElements.stream().filter(w -> w.getText().contains(theatreName)).map(w -> w.getText()).collect(Collectors.toList()));
-                result=names.get().stream().map(c->("Movie Available At "+c)).collect(Collectors.toList());
+                result = names.get().stream().map(c -> ("Movie Available At " + c)).collect(Collectors.toList());
             } catch (NoSuchElementException e) {
                 System.out.println("Movie Not Available For " + theatreName);
                 result.add("Movie Not Available For " + theatreName);
@@ -62,7 +63,6 @@ public class MovieService {
         }
         driver.close();
         driver.quit();
-        driver=null;
         return result;
     }
 
