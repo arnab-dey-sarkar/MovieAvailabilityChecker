@@ -141,4 +141,9 @@ public class BasePageObject
 		WebDriverWait  wait=new WebDriverWait(driver,30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
 	}
+	public static  void scrollPage()
+	{
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,250)", "");
+	}
 }

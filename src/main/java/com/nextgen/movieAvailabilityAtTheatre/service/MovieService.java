@@ -29,8 +29,7 @@ public class MovieService {
         String theatreName = movieInfo.getTheatreName();
         String movieType = movieInfo.getMovieType();
         String movieLanguage = movieInfo.getMovieLanguage();
-        if(driver!=null)
-        {
+        if (driver != null) {
             driver.close();
             driver.quit();
         }
@@ -46,9 +45,13 @@ public class MovieService {
             BasePageObject.clickElementJS("//strong[text()='" + location + "']");
         } catch (Exception e) {
         }
+        BasePageObject.clickElementJS("(//div/a[text()='Movies'])[1]");
         Thread.sleep(2000);
-        if (BasePageObject.isPresent("//div[contains(text(),'" + movieName + "')]")) {
-            BasePageObject.clickElementJS("//div[contains(text(),'" + movieName + "')]");
+        clickOnDisplayedElement("//div/div[text()='"+movieLanguage+"']");
+        BasePageObject.scrollPage();
+        Thread.sleep(500);
+        if (BasePageObject.isPresent("//div[contains(text(),'" + movieName + "')]/ancestor::a")) {
+            BasePageObject.clickElementJS("//div[contains(text(),'" + movieName + "')]/ancestor::a");
             Thread.sleep(1000);
             BasePageObject.clickElement("(//button//div//span[text()='Book tickets'])[1]");
             Thread.sleep(1000);
@@ -72,7 +75,15 @@ public class MovieService {
             System.out.println("Movie Not Found");
             movieTheatres.add(new MovieTheatres("Movie Not Found"));
         }
+        driver.close();
+        driver.quit();
+        driver=null;
         return movieTheatres;
+    }
+    public void clickOnDisplayedElement(String locator)
+    {
+        List<WebElement> elements=BasePageObject.getElements(locator);
+        elements.stream().filter(e->e.isDisplayed()).findFirst().get().click();
     }
 
 }
