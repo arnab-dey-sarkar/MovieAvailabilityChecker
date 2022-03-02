@@ -146,4 +146,8 @@ public class BasePageObject
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("window.scrollBy(0,250)", "");
 	}
+	public static void clickOnDisplayedElement(String locator) {
+		List<WebElement> elements = BasePageObject.getElements(locator);
+		elements.stream().filter(e -> e.isDisplayed()).findFirst().get().click();
+	}
 }

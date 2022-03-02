@@ -3,7 +3,7 @@ This project is basically a Spring Boot service which retrieves data from BookMy
 This project has selenium running in headless mode to collect those theatre details and return a response with the theatre names and address if available for that day.
 
 Endpoint Info:
-POST/getMovieAvailability:
+POST/getMovieAvailability: retrieves the list of theatres as per Input
                      
 Request Body:
 
@@ -13,4 +13,15 @@ Request Body:
     "theatreName": "PVR",
     "movieType": "2D",
     "movieLanguage": "English"
+}
+
+POST/getAvailableTheatres: retrieves all the list of available theatres as per Input
+
+Request Body:
+
+{
+"location": "Kolkata",
+"movieName": "The Batman",
+"movieType": "2D",
+"movieLanguage": "English"
 }
