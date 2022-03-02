@@ -60,6 +60,9 @@ public class MovieService {
             System.out.println("Movie Not Found");
             result.add("Movie Not Found");
         }
+        driver.close();
+        driver.quit();
+        driver=null;
         return result;
     }
 
