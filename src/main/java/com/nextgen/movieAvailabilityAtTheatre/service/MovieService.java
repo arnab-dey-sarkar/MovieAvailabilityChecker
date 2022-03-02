@@ -29,7 +29,11 @@ public class MovieService {
         String theatreName = movieInfo.getTheatreName();
         String movieType = movieInfo.getMovieType();
         String movieLanguage = movieInfo.getMovieLanguage();
-
+        if(driver!=null)
+        {
+            driver.close();
+            driver.quit();
+        }
         driver = null;
         driver = DriverUtils.createLocalDriver();
         BasePageObject.setDriver(driver);
@@ -68,8 +72,6 @@ public class MovieService {
             System.out.println("Movie Not Found");
             movieTheatres.add(new MovieTheatres("Movie Not Found"));
         }
-        driver.close();
-        driver.quit();
         return movieTheatres;
     }
 
