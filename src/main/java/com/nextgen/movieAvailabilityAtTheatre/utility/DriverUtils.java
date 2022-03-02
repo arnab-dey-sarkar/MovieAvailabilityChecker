@@ -41,6 +41,8 @@ public class DriverUtils {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--start-maximized");
                 options.addArguments("--disable-notifications");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--no-sandbox");
                 options.setHeadless(headless);
                 WebDriverManager.chromedriver().architecture(archType).version(ConfigProvider.getAsString("chrome.version"))
                         .setup();
