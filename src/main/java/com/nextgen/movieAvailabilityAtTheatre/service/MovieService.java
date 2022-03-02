@@ -1,11 +1,13 @@
 package com.nextgen.movieAvailabilityAtTheatre.service;
 
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieInfo;
+import com.nextgen.movieAvailabilityAtTheatre.model.MovieTheatres;
 import com.nextgen.movieAvailabilityAtTheatre.utility.BasePageObject;
 import com.nextgen.movieAvailabilityAtTheatre.utility.ConfigProvider;
 import com.nextgen.movieAvailabilityAtTheatre.utility.DriverUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,8 +20,9 @@ import java.util.stream.Collectors;
 public class MovieService {
     static WebDriver driver;
 
-    public List<String> getMovieInfo(MovieInfo movieInfo) throws Exception {
-        List<String> result = new ArrayList<>();
+    public List<MovieTheatres> getMovieInfo(MovieInfo movieInfo) throws Exception {
+
+        List<MovieTheatres> movieTheatres = new ArrayList<>();
         //DATA
         String location = movieInfo.getLocation();
         String movieName = movieInfo.getMovieName();
@@ -51,19 +54,23 @@ public class MovieService {
             BasePageObject.Ele_presence_Wait("//a[@class='__venue-name']");
             List<WebElement> webElements = BasePageObject.getElements("//a[@class='__venue-name']");
             try {
-                Optional<List<String>> names = Optional.ofNullable(webElements.stream().filter(w -> w.getText().contains(theatreName)).map(w -> w.getText()).collect(Collectors.toList()));
-                result = names.get().stream().map(c -> ("Movie Available At " + c)).collect(Collectors.toList());
+                List<String> names = webElements.stream().filter(w -> w.getText().contains(theatreName)).map(w -> w.getText()).collect(Collectors.toList());
+                if (names.size() == 0)
+                    movieTheatres.add(new MovieTheatres("None"));
+                else
+                    names.stream().forEach(r -> movieTheatres.add(new MovieTheatres(r)));
             } catch (NoSuchElementException e) {
                 System.out.println("Movie Not Available For " + theatreName);
-                result.add("Movie Not Available For " + theatreName);
+                movieTheatres.add(new MovieTheatres("None"));
+
             }
         } else {
             System.out.println("Movie Not Found");
-            result.add("Movie Not Found");
+            movieTheatres.add(new MovieTheatres("Movie Not Found"));
         }
         driver.close();
         driver.quit();
-        return result;
+        return movieTheatres;
     }
 
 }
