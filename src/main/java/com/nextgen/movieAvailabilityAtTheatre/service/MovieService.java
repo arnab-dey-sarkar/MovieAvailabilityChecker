@@ -38,11 +38,11 @@ public class MovieService {
         driver.get(ConfigProvider.getAsString("ApplicationUrl"));
         try {
             BasePageObject.setInputvalue("//input[@placeholder='Search for your city']", location);
-            Thread.sleep(500);
+            Thread.sleep(200);
             BasePageObject.clickElementJS("//strong[text()='" + location + "']");
         } catch (Exception e) {
         }
-        Thread.sleep(1500);
+        Thread.sleep(2000);
         if (BasePageObject.isPresent("//div[contains(text(),'" + movieName + "')]")) {
             BasePageObject.clickElementJS("//div[contains(text(),'" + movieName + "')]");
             Thread.sleep(1000);
