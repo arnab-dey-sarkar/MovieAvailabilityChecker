@@ -1,6 +1,9 @@
 package com.nextgen.movieAvailabilityAtTheatre.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieDetails;
+import com.nextgen.movieAvailabilityAtTheatre.model.MoviePrices;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieTheatres;
 import com.nextgen.movieAvailabilityAtTheatre.utility.BasePageObject;
 import com.nextgen.movieAvailabilityAtTheatre.utility.ConfigProvider;
@@ -10,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,25 +64,45 @@ public class MovieService {
             BasePageObject.Ele_presence_Wait("//a[@class='__venue-name']");
             List<WebElement> venueNames = BasePageObject.getElements("//a[@class='__venue-name']");
 
-            //(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[1]/div//div/div
-            //webElements.stream().map(v -> v.getText()).forEach(a -> movieTheatres.add(new MovieTheatres(a)));
+            for (int i = 0; i < venueNames.size(); i++) {
+                String vName = venueNames.get(i).getText();
+                List<WebElement> showTimesElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div/div");
+                List<WebElement> priceStatsElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div//a");
 
-            for(int i=0;i<venueNames.size();i++)
-            {
-                String vName=venueNames.get(i).getText();
-                List<WebElement> showTimesElements=BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)["+(i+1)+"]/div//div/div");
+                List<String> showTimes = showTimesElements.stream().map(e -> e.getText()).filter(t -> t.contains("AM") || t.contains("PM")).collect(Collectors.toList());
+                List<String> priceStats = priceStatsElements.stream().map(m -> m.getAttribute("data-cat-popup")).collect(Collectors.toList());
 
-                List<String> showTimes=showTimesElements.stream().map(e->e.getText()).filter(t->t.contains("AM")||t.contains("PM")).collect(Collectors.toList());
-                MovieTheatres movieTheatre=new MovieTheatres(vName,showTimes);
+                HashMap<String, MoviePrices[]> map = mapTimeToPrices(showTimes, priceStats);
+
+                MovieTheatres movieTheatre = new MovieTheatres(vName, map);
                 movieTheatres.add(movieTheatre);
             }
         } else {
             System.out.println("Movie Not Found");
-            movieTheatres.add(new MovieTheatres("Movie Not Found",new ArrayList<String>()));
+            movieTheatres.add(new MovieTheatres("Movie Not Found", new HashMap<>()));
         }
         driver.close();
         driver.quit();
         driver = null;
         return movieTheatres;
+    }
+
+    public HashMap<String, MoviePrices[]> mapTimeToPrices(List<String> showTimes, List<String> priceStats) {
+        HashMap<String, MoviePrices[]> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        List<MoviePrices[]> moviePricesList = new ArrayList<>();
+        for (String price : priceStats) {
+            MoviePrices[] moviePrices;
+            try {
+                moviePrices = mapper.readValue(price, MoviePrices[].class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            moviePricesList.add(moviePrices);
+        }
+        for (int i = 0; i < showTimes.size(); i++) {
+            map.put(showTimes.get(i), moviePricesList.get(i));
+        }
+        return map;
     }
 }

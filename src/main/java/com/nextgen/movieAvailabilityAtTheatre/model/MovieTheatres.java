@@ -1,10 +1,10 @@
 package com.nextgen.movieAvailabilityAtTheatre.model;
 
-import java.util.List;
+import java.util.HashMap;
 
 public class MovieTheatres {
-    String name;
-    List<String> showTimes;
+    private String name;
+    private HashMap<String,MoviePrices[]> showTimesWithPriceStats;
 
     public String getName() {
         return name;
@@ -14,24 +14,24 @@ public class MovieTheatres {
         this.name = name;
     }
 
-    public List<String> getShowTimes() {
-        return showTimes;
+    public HashMap<String, MoviePrices[]> getShowTimesWithPriceStats() {
+        return showTimesWithPriceStats;
     }
 
-    public void setShowTimes(List<String> showTimes) {
-        this.showTimes = showTimes;
+    public void setShowTimesWithPriceStats(HashMap<String, MoviePrices[]> showTimesWithPriceStats) {
+        this.showTimesWithPriceStats = showTimesWithPriceStats;
     }
 
-    public MovieTheatres(String name, List<String> showTimes) {
+    public MovieTheatres(String name, HashMap<String, MoviePrices[]> showTimesWithPriceStats) {
         this.name = name;
-        this.showTimes = showTimes;
+        this.showTimesWithPriceStats = showTimesWithPriceStats;
     }
 
     @Override
     public String toString() {
         return "MovieTheatres{" +
                 "name='" + name + '\'' +
-                ", showTimes=" + showTimes +
+                ", showTimesWithPriceStats=" + showTimesWithPriceStats +
                 '}';
     }
 }

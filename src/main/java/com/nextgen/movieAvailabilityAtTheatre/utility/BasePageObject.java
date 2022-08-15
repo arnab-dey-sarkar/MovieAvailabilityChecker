@@ -62,6 +62,16 @@ public class BasePageObject
 		String text=driver.findElement(By.xpath(locator)).getText();
 		return text;
 	}
+	public static String getAttribute(String locator,String attribute)
+	{
+		String text=driver.findElement(By.xpath(locator)).getAttribute(attribute);
+		return text;
+	}
+	public static String getAttribute(WebElement element,String attribute)
+	{
+		String text=element.getAttribute(attribute);
+		return text;
+	}
 	//implicit wait for a given time
 	public static void sleep(long time) throws InterruptedException
 	{
