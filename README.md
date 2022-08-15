@@ -25,7 +25,7 @@ Request Parameters:-
 
 
 
-This project is deployed in Heroku as well. The link for accessing the deployed application is https://lnkd.in/dKu6kbCS
+This project is deployed in Heroku as well. The link for accessing the deployed application is [https://lnkd.in/dKu6kbCS](https://movieavailabilitydetails.herokuapp.com)
 
 
 
