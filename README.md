@@ -1,46 +1,65 @@
 # MovieAvailabilityAtTheatre
-This project is basically a Spring Boot service which retrieves data from BookMyShow and provides availability of theatres for a particular movie.
-This project has selenium running in headless mode to collect those theatre details and return a response with the theatre names and address if available for that day.
+This project is basically a Spring Boot service which retrieves data from BookMyShow UI using selenium.
+Selenium is running in headless mode to collect those theatre details and returns a response with the theatre names,address and showtimes for respective theatres if available for that day.
 
 Endpoint Info:
-POST/getMovieAvailability: retrieves the list of specific theatres as per input like PVR in below example.
+GET/movies/{movieName}/theatres: retrieves the list of theatres as per input.
 
-Request Body:
-{ "location": "Kolkata", "movieName": "Laal Singh Chaddha", "theatreName": "PVR", "movieType": "2D", "movieLanguage": "Hindi" }
+Path Parameters:-
+1.movieName-> name of the movie
 
-Output:
-[
-    {
-        "availabilty": "PVR: Avani, Kolkata"
-    },
-    {
-        "availabilty": "PVR: Diamond Plaza, Jessore Kolkata"
-    },
-    {
-        "availabilty": "PVR: Mani Square Mall, Kolkata"
-    },
-    {
-        "availabilty": "PVR: Uniworld Downtown Mall, New Town, Kolkata"
-    }
-]
+Request Parameters:-
+1.location-> the location for which the user intends to search the movie for theatre booking
+2.movieType-> the type of movie like 2D,3D etc.
+3.movieLanguage-> the language of the movie
+4.theatreName(Optional)->if the user tends to filter the result against a specific set of theatres like PVR, INOX etc.
 
-POST/getAvailableTheatres: retrieves all the list of available theatres as per movie name,location and other input parameters
+This project is deployed in Heroku as well.The link for accessing the deployed application is https://movieavailabilitydetails.herokuapp.com
 
-Request Body:
-{ "location": "Kolkata", "movieName": "Laal Singh Chaddha", "movieType": "2D", "movieLanguage": "Hindi" }
+Example -
+Performing a GET request on the below endpoint will result in the output provided below:-
+
+GET/movies/Laal Singh Chaddha/theatres?location=Kolkata&movieType=2D&movieLanguage=Hindi&theatreName=PVR
 
 Output:
 [
     {
-        "availabilty": "INOX: City Centre II, Rajarhat"
+        "name": "PVR: Avani, Kolkata",
+        "showTimes": [
+            "04:00 PM",
+            "07:30 PM",
+            "09:30 PM",
+            "10:00 PM",
+            "11:00 PM"
+        ]
     },
     {
-        "availabilty": "Miraj Cinemas: Newtown, Kolkata"
+        "name": "PVR: Diamond Plaza, Jessore Kolkata",
+        "showTimes": [
+            "02:55 PM",
+            "04:00 PM",
+            "07:30 PM",
+            "09:55 PM",
+            "11:00 PM"
+        ]
     },
     {
-        "availabilty": "Bioscope: Axis Mall, Rajarhat"
+        "name": "PVR: Mani Square Mall, Kolkata",
+        "showTimes": [
+            "04:00 PM",
+            "06:30 PM",
+            "07:30 PM",
+            "10:00 PM",
+            "11:00 PM"
+        ]
     },
     {
-        "availabilty": "Nazrultirtha Cinema: Kolkata"
+        "name": "PVR: Uniworld Downtown Mall, New Town, Kolkata",
+        "showTimes": [
+            "04:00 PM",
+            "07:30 PM",
+            "08:00 PM",
+            "11:00 PM"
+        ]
     }
 ]
