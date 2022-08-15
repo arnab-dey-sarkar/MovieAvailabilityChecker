@@ -67,7 +67,8 @@ public class MovieService {
             {
                 String vName=venueNames.get(i).getText();
                 List<WebElement> showTimesElements=BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)["+(i+1)+"]/div//div/div");
-                List<String> showTimes=showTimesElements.stream().map(e->e.getText()).collect(Collectors.toList());
+
+                List<String> showTimes=showTimesElements.stream().map(e->e.getText()).filter(t->t.contains("AM")||t.contains("PM")).collect(Collectors.toList());
                 MovieTheatres movieTheatre=new MovieTheatres(vName,showTimes);
                 movieTheatres.add(movieTheatre);
             }
