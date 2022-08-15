@@ -3,25 +3,44 @@ This project is basically a Spring Boot service which retrieves data from BookMy
 This project has selenium running in headless mode to collect those theatre details and return a response with the theatre names and address if available for that day.
 
 Endpoint Info:
-POST/getMovieAvailability: retrieves the list of theatres as per Input
-                     
-Request Body:
-
-{
-    "location": "Kolkata",
-    "movieName": "The Batman",
-    "theatreName": "PVR",
-    "movieType": "2D",
-    "movieLanguage": "English"
-}
-
-POST/getAvailableTheatres: retrieves all the list of available theatres as per Input
+POST/getMovieAvailability: retrieves the list of specific theatres as per input like PVR in below example.
 
 Request Body:
+{ "location": "Kolkata", "movieName": "Laal Singh Chaddha", "theatreName": "PVR", "movieType": "2D", "movieLanguage": "Hindi" }
 
-{
-"location": "Kolkata",
-"movieName": "The Batman",
-"movieType": "2D",
-"movieLanguage": "English"
-}
+Output:
+[
+    {
+        "availabilty": "PVR: Avani, Kolkata"
+    },
+    {
+        "availabilty": "PVR: Diamond Plaza, Jessore Kolkata"
+    },
+    {
+        "availabilty": "PVR: Mani Square Mall, Kolkata"
+    },
+    {
+        "availabilty": "PVR: Uniworld Downtown Mall, New Town, Kolkata"
+    }
+]
+
+POST/getAvailableTheatres: retrieves all the list of available theatres as per movie name,location and other input parameters
+
+Request Body:
+{ "location": "Kolkata", "movieName": "Laal Singh Chaddha", "movieType": "2D", "movieLanguage": "Hindi" }
+
+Output:
+[
+    {
+        "availabilty": "INOX: City Centre II, Rajarhat"
+    },
+    {
+        "availabilty": "Miraj Cinemas: Newtown, Kolkata"
+    },
+    {
+        "availabilty": "Bioscope: Axis Mall, Rajarhat"
+    },
+    {
+        "availabilty": "Nazrultirtha Cinema: Kolkata"
+    }
+]
