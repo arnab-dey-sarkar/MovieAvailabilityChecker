@@ -1,24 +1,37 @@
 package com.nextgen.movieAvailabilityAtTheatre.model;
 
-public class MovieTheatres {
-    String availabilty;
+import java.util.List;
 
-    public String getAvailabilty() {
-        return availabilty;
+public class MovieTheatres {
+    String name;
+    List<String> showTimes;
+
+    public String getName() {
+        return name;
     }
 
-    public void setAvailabilty(String availabilty) {
-        this.availabilty = availabilty;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> getShowTimes() {
+        return showTimes;
+    }
+
+    public void setShowTimes(List<String> showTimes) {
+        this.showTimes = showTimes;
+    }
+
+    public MovieTheatres(String name, List<String> showTimes) {
+        this.name = name;
+        this.showTimes = showTimes;
     }
 
     @Override
     public String toString() {
         return "MovieTheatres{" +
-                "availabilty='" + availabilty + '\'' +
+                "name='" + name + '\'' +
+                ", showTimes=" + showTimes +
                 '}';
-    }
-
-    public MovieTheatres(String availabilty) {
-        this.availabilty = availabilty;
     }
 }

@@ -1,8 +1,6 @@
 package com.nextgen.movieAvailabilityAtTheatre.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class MovieInfo1 {
+public class MovieDetails {
     private String location;
     private String movieName;
     private String movieType;
@@ -50,7 +48,7 @@ public class MovieInfo1 {
                 '}';
     }
 
-    public MovieInfo1(String location, String movieName, String movieType, String movieLanguage) {
+    public MovieDetails(String location, String movieName, String movieType, String movieLanguage) {
         this.location = location;
         this.movieName = movieName;
         this.movieType = movieType;
