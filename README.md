@@ -17,9 +17,9 @@ Request Parameters:-
 This project is deployed in Heroku as well.The link for accessing the deployed application is https://movieavailabilitydetails.herokuapp.com
 
 Example -
-Performing a GET request on the below URL will result in the output provided below:-
+Performing a GET request on the below endpoint will result in the output provided below:-
 
-https://movieavailabilitydetails.herokuapp.com/movies/Laal Singh Chaddha/theatres?location=Kolkata&movieType=2D&movieLanguage=Hindi&theatreName=PVR
+GET/movies/Laal Singh Chaddha/theatres?location=Kolkata&movieType=2D&movieLanguage=Hindi&theatreName=PVR
 
 Output:
 [
