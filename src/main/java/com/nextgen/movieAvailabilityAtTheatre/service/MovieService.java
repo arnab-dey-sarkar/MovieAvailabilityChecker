@@ -98,7 +98,10 @@ public class MovieService {
                 moviePricesList.add(moviePrices);
             } catch (Exception e) {
                 MoviePrices prices=new MoviePrices();
-                prices.setAvailabilityText("Seats Not Available");
+                prices.setPrice("");
+                prices.setDesc("");
+                prices.setAvailabilityClass("_not available");
+                prices.setAvailabilityText("Not Available");
                 moviePricesList.add(new MoviePrices[]{prices});
             }
 
