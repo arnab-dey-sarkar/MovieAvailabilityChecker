@@ -94,6 +94,9 @@ public class MovieService {
         for (String price : priceStats) {
             MoviePrices[] moviePrices;
             try {
+                if(price==null) {
+                    continue;
+                }
                 moviePrices = mapper.readValue(price, MoviePrices[].class);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);

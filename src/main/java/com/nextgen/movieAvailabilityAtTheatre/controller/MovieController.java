@@ -4,7 +4,10 @@ import com.nextgen.movieAvailabilityAtTheatre.model.MovieDetails;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieTheatres;
 import com.nextgen.movieAvailabilityAtTheatre.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +19,19 @@ public class MovieController {
     MovieService movieService;
 
     @RequestMapping(method = RequestMethod.GET, path = "/movies/{movieName}/theatres")
-    public List<MovieTheatres> getTheatresForMovie(@PathVariable("movieName") String movieName, @RequestParam String location, @RequestParam String movieType, @RequestParam String movieLanguage, @RequestParam(required = false) Optional<String> theatreName) throws Exception {
+    public ResponseEntity<List<MovieTheatres>> getTheatresForMovie(@PathVariable("movieName") String movieName, @RequestParam String location, @RequestParam String movieType, @RequestParam String movieLanguage, @RequestParam(required = false) Optional<String> theatreName) throws Exception {
+        List<MovieTheatres> movieTheatres;
         MovieDetails movieDetails = new MovieDetails(location, movieName, movieType, movieLanguage);
-        if (theatreName.isPresent())
-            return movieService.getTheatres(movieDetails).stream().filter(m -> m.getName().contains(theatreName.get())).collect(Collectors.toList());
-        else
-            return movieService.getTheatres(movieDetails);
+        try {
+            if (theatreName.isPresent())
+                movieTheatres = movieService.getTheatres(movieDetails).stream().filter(m -> m.getName().contains(theatreName.get())).collect(Collectors.toList());
+            else
+                movieTheatres = movieService.getTheatres(movieDetails);
+            if (movieTheatres.size() == 0)
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(movieTheatres, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Theatres For Movie " + movieName, e);
+        }
     }
 }
