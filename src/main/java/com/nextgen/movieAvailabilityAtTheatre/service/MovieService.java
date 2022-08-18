@@ -71,8 +71,7 @@ public class MovieService {
 
                 List<String> showTimes = showTimesElements.stream().map(e -> e.getText()).filter(t -> t.contains("AM") || t.contains("PM")).collect(Collectors.toList());
                 List<String> priceStats = priceStatsElements.stream().map(m -> m.getAttribute("data-cat-popup")).collect(Collectors.toList());
-                if(priceStats.contains(null))
-                    continue;
+
                 HashMap<String, MoviePrices[]> map = mapTimeToPrices(showTimes, priceStats);
 
                 MovieTheatres movieTheatre = new MovieTheatres(vName, map);
@@ -96,10 +95,13 @@ public class MovieService {
             MoviePrices[] moviePrices;
             try {
                 moviePrices = mapper.readValue(price, MoviePrices[].class);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                moviePricesList.add(moviePrices);
+            } catch (Exception e) {
+                MoviePrices prices=new MoviePrices();
+                prices.setAvailabilityText("Seats Not Available");
+                moviePricesList.add(new MoviePrices[]{prices});
             }
-            moviePricesList.add(moviePrices);
+
         }
         for (int i = 0; i < showTimes.size(); i++) {
             map.put(showTimes.get(i), moviePricesList.get(i));
