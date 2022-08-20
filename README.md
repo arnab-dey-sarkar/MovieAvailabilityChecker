@@ -1,11 +1,26 @@
 # MovieAvailabilityAtTheatre
- This project is basically a Spring Boot service which retrieves data from BookMyShow UI using selenium. Selenium is running in headless mode to collect those theatre details and returns a response with the theatre names, address, showtimes  and seat prices for respective theatres if available for that day.
+ This project is basically a Spring Boot service which retrieves data from BookMyShow UI using selenium. Selenium is running in headless mode to collect those theatre details and returns a response with the theatre names, address, showtimes  and seat prices for respective theatres if available for that day.This project also has Security implementation.There is one endpoint for generating JWT Token and then inorder to access the other endpoints we need to provide an Authorization Header with the value as Bearer {token}.
 
 
 
-Endpoint Info: GET/movies/{movieName}/theatres: retrieves the list of theatres as per input.
+Endpoint Info: 
+POST/authenticate : validates the user credentials against the details present in H2 DB and then generates a JWT token as the response.
 
+Body->
+{
+    "username":"Arnab",
+    "password":"12345"
+}
+Output:-
+{
+    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBcm5hYiIsImV4cCI6MTY2MDk5MTc2OCwiaWF0IjoxNjYwOTczNzY4fQ.cnkH69tgJbAQK968yTxRIjaMzPuYNZLtDraxiNiY32qVSszFdWk7wE6EUFi1ted1eNNm9r3uG7dgejaz1n_6hQ"
+}
 
+GET/movies/{movieName}/theatres: validates the JWT token and if validation is successful then retrieves the list of theatres as per input.
+
+Header-Bearer {token}
+
+Example- Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBcm5hYiIsImV4cCI6MTY2MDk5MjA5MywiaWF0IjoxNjYwOTc0MDkzfQ.qSPfQZJlgPvENQiOO18YmAdJ0bnpptbKhfHnUPAOhLdhlZHqh8_RzBsJctvVCzqWqVcCInbjrK9sC1YmQnSRMA
 
 Path Parameters:- 
 
