@@ -4,7 +4,7 @@
 
 
 Endpoint Info: 
-POST//authenticate : validates the user credentials against the details present in H2 DB and then generates a JWT token as the response.
+POST/authenticate : validates the user credentials against the details present in H2 DB and then generates a JWT token as the response.
 
 Body->
 {
