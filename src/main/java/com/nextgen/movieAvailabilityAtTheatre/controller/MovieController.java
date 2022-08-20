@@ -1,5 +1,6 @@
 package com.nextgen.movieAvailabilityAtTheatre.controller;
 
+import com.nextgen.movieAvailabilityAtTheatre.model.Movie;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieDetails;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieTheatres;
 import com.nextgen.movieAvailabilityAtTheatre.service.MovieService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,7 +21,7 @@ public class MovieController {
     MovieService movieService;
 
     @RequestMapping(method = RequestMethod.GET, path = "/movies/{movieName}/theatres")
-    public ResponseEntity<List<MovieTheatres>> getTheatresForMovie(@PathVariable("movieName") String movieName, @RequestParam String location, @RequestParam String movieType, @RequestParam String movieLanguage, @RequestParam(required = false) Optional<String> theatreName) throws Exception {
+    public ResponseEntity<?> getTheatresForMovie(@PathVariable("movieName") String movieName, @RequestParam String location, @RequestParam String movieType, @RequestParam String movieLanguage, @RequestParam(required = false) Optional<String> theatreName) throws Exception {
         List<MovieTheatres> movieTheatres;
         MovieDetails movieDetails = new MovieDetails(location, movieName, movieType, movieLanguage);
         try {
@@ -33,5 +35,19 @@ public class MovieController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Theatres For Movie " + movieName, e);
         }
+    }
+    @RequestMapping(method = RequestMethod.GET, path = "/movies")
+    public ResponseEntity<?> getMovies(@RequestParam String location)
+    {
+        List<Movie> movieList=new ArrayList<>();
+        try {
+            movieList=movieService.getMovies(location);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Movies", e);
+        }
+        if(movieList.size()==0)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        else
+            return new ResponseEntity<>(movieList,HttpStatus.OK);
     }
 }

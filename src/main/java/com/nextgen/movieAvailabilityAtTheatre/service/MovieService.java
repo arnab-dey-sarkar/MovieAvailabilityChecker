@@ -1,10 +1,10 @@
 package com.nextgen.movieAvailabilityAtTheatre.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieDetails;
 import com.nextgen.movieAvailabilityAtTheatre.model.MoviePrices;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieTheatres;
+import com.nextgen.movieAvailabilityAtTheatre.model.Movie;
 import com.nextgen.movieAvailabilityAtTheatre.utility.BasePageObject;
 import com.nextgen.movieAvailabilityAtTheatre.utility.ConfigProvider;
 import com.nextgen.movieAvailabilityAtTheatre.utility.DriverUtils;
@@ -28,24 +28,9 @@ public class MovieService {
         String movieName = movieInfo.getMovieName();
         String movieType = movieInfo.getMovieType();
         String movieLanguage = movieInfo.getMovieLanguage();
-        if (driver != null) {
-            driver.close();
-            driver.quit();
-        }
-        driver = null;
-        driver = DriverUtils.createLocalDriver();
-        BasePageObject.setDriver(driver);
 
+        accessBookMyShow(location);
 
-        driver.get(ConfigProvider.getAsString("ApplicationUrl"));
-        try {
-            BasePageObject.setInputvalue("//input[@placeholder='Search for your city']", location);
-            Thread.sleep(200);
-            BasePageObject.clickElementJS("//strong[text()='" + location + "']");
-        } catch (Exception e) {
-        }
-        BasePageObject.clickElementJS("(//div/a[text()='Movies'])[1]");
-        Thread.sleep(2000);
         BasePageObject.clickOnDisplayedElement("//div/div[text()='" + movieLanguage + "']");
         BasePageObject.scrollPage();
         Thread.sleep(500);
@@ -110,5 +95,39 @@ public class MovieService {
             map.put(showTimes.get(i), moviePricesList.get(i));
         }
         return map;
+    }
+
+    public List<Movie> getMovies(String location) throws Exception {
+        List<Movie> movieList=new ArrayList<>();
+        accessBookMyShow(location);
+        List<WebElement> webElements=BasePageObject.getElements("//a[contains(@href,'bookmyshow.com/"+location.toLowerCase()+"/movies')]//img");
+        List<String> movies=webElements.stream().map(e->e.getAttribute("alt")).collect(Collectors.toList());
+        for(String movie:movies)
+        {
+            String language=BasePageObject.getText("//a[contains(@href,'bookmyshow.com/"+location.toLowerCase()+"/movies')]//div[text()='"+movie+"']/parent::div/following-sibling::div[2]//div");
+            movieList.add(new Movie(movie,language));
+        }
+        return movieList;
+    }
+    public void accessBookMyShow(String location) throws Exception {
+        if (driver != null) {
+            driver.close();
+            driver.quit();
+        }
+        driver = null;
+        driver = DriverUtils.createLocalDriver();
+        BasePageObject.setDriver(driver);
+
+
+        driver.get(ConfigProvider.getAsString("ApplicationUrl"));
+        try {
+            BasePageObject.setInputvalue("//input[@placeholder='Search for your city']", location);
+            Thread.sleep(200);
+            BasePageObject.clickElementJS("//strong[text()='" + location + "']");
+        } catch (Exception e) {
+        }
+        Thread.sleep(2000);
+        BasePageObject.clickElementJS("(//div/a[text()='Movies'])[1]");
+        Thread.sleep(2000);
     }
 }
