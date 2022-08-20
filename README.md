@@ -16,7 +16,37 @@ Output:-
     "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBcm5hYiIsImV4cCI6MTY2MDk5MTc2OCwiaWF0IjoxNjYwOTczNzY4fQ.cnkH69tgJbAQK968yTxRIjaMzPuYNZLtDraxiNiY32qVSszFdWk7wE6EUFi1ted1eNNm9r3uG7dgejaz1n_6hQ"
 }
 
+GET/movies : validates the JWT token and if validation is successful then retrieves the list of movies as per given location.
+
+Example- Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBcm5hYiIsImV4cCI6MTY2MDk5MjA5MywiaWF0IjoxNjYwOTc0MDkzfQ.qSPfQZJlgPvENQiOO18YmAdJ0bnpptbKhfHnUPAOhLdhlZHqh8_RzBsJctvVCzqWqVcCInbjrK9sC1YmQnSRMA
+
+Query Parameters:- 
+
+1.location-> location of the theatres where the movie can be seen
+
+Output->
+
+[
+    {
+        "movieName": "Daagdi Chaawl 2",
+        "language": "Marathi"
+    },
+    {
+        "movieName": "Karthikeya 2",
+        "language": "Telugu, Hindi, Kannada, Tamil, Malayalam"
+    },
+    {
+        "movieName": "Laal Singh Chaddha",
+        "language": "Hindi, Tamil, Telugu"
+    },
+    {
+        "movieName": "Dobaaraa",
+        "language": "Hindi"
+    }
+]
+
 GET/movies/{movieName}/theatres: validates the JWT token and if validation is successful then retrieves the list of theatres as per input.
+Header-Bearer {token}
 
 Header-Bearer {token}
 
@@ -28,9 +58,9 @@ Path Parameters:-
 
 
 
-Request Parameters:- 
+Query Parameters:- 
 
-1.location-> the location for which the user intends to search the movie for theatre booking 
+1.location-> location of the theatres where the movie can be seen
 
 2.movieType-> the type of movie like 2D,3D etc. 
 
