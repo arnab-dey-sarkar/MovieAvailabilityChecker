@@ -15,5 +15,5 @@ RUN mvn -f /home/app/pom.xml clean package
 
 FROM openjdk:8-jdk-alpine
 EXPOSE 8080
-COPY --from=build /home/app/target/movieAvailability.jar /usr/local/lib/movieAvailability.jar
-ENTRYPOINT ["java","-jar","/usr/local/lib/movieAvailability.jar"]
+COPY --from=build /home/app/target/movieAvailability.war /usr/local/lib/movieAvailability.war
+ENTRYPOINT ["java","-jar","/usr/local/lib/movieAvailability.war"]
