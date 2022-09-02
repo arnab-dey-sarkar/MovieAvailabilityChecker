@@ -12,6 +12,7 @@
 	<artifactId>movieAvailabilityAtTheatre</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>movieAvailabilityAtTheatre</name>
+	<packaging>war</packaging>
 	<description>Spring Boot Project</description>
 	<properties>
 		<java.version>1.8</java.version>
