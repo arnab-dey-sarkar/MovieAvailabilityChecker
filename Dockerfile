@@ -15,5 +15,5 @@ RUN mvn -f /home/app/pom.xml clean package
 
 FROM gcr.io/distroless/java
 EXPOSE 8080
-COPY --from=build /home/app/target/movieservice.war /usr/local/lib/movieservice.war
-ENTRYPOINT ["java","-jar","/usr/local/lib/movieservice.war"]
+COPY --from=build /home/app/target/movieservice.jar /usr/local/lib/movieservice.jar
+ENTRYPOINT ["java","-jar","/usr/local/lib/movieservice.jar"]
