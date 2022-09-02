@@ -8,12 +8,14 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
   && apt-get update && apt-get -qqy install ${CHROME_VERSION:-google-chrome-stable}
 CMD /bin/bash
 
-FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
+FROM maven:3-alpine AS build-project
+ADD . ./movieservice
+WORKDIR /movieservice
+RUN mvn clean install
 
-FROM gcr.io/distroless/java
+FROM openjdk:8-jre-alpine
 EXPOSE 8080
-COPY --from=build /home/app/target/movieservice.jar /usr/local/lib/movieservice.jar
-ENTRYPOINT ["java","-jar","/usr/local/lib/movieservice.jar"]
+WORKDIR /app
+COPY --from=build-project ./movieservice/target/movieservice.jar ./movieservice.jar
+CMD ["java", "-jar", "movieservice.jar"]
+
