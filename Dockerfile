@@ -17,5 +17,6 @@ FROM openjdk:8-jre-alpine
 EXPOSE 8080
 WORKDIR /app
 COPY --from=build-project ./movieservice/target/movieservice.war ./movieservice.war
-CMD ["java", "-jar", "/movieservice.war"]
+RUN sh -c 'touch movieservice.war'
+ENTRYPOINT ["java", "-jar", "movieservice.war"]
 
