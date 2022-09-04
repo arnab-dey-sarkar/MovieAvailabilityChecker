@@ -8,13 +8,17 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
   && apt-get update && apt-get -qqy install ${CHROME_VERSION:-google-chrome-stable}
 CMD /bin/bash
 
-FROM maven:3-alpine AS build-project
-ADD . ./movieservice
-WORKDIR /movieservice
-RUN mvn clean install
+FROM eclipse-temurin:17-jdk-jammy as builder
+WORKDIR /opt/app
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+COPY ./src ./src
+RUN ./mvnw clean install
 
-FROM openjdk:8-jre-alpine
+
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /opt/app
 EXPOSE 8080
-WORKDIR /app
-COPY --from=build-project ./movieservice/target/movieservice.jar ./movieservice.jar
-CMD ["java", "-jar", "movieservice.jar"]
+COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
+ENTRYPOINT ["java", "-jar", "/opt/app/*.jar" ]
