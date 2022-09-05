@@ -3,6 +3,7 @@ package com.nextgen.movieAvailabilityAtTheatre.utility;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.Architecture;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 public class DriverUtils {
@@ -27,7 +28,8 @@ public class DriverUtils {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.setHeadless(headless);
-        driver = WebDriverManager.chromedriver().architecture(archType).capabilities(options).browserInDocker().create();
+        WebDriverManager.chromedriver().architecture(archType).capabilities(options).setup();
+        driver=new ChromeDriver();
 
 
         return driver;
