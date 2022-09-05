@@ -20,6 +20,6 @@ public class MovieAvailabilityAtTheatreApplication extends WebSecurityConfigurer
     }
 
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll();
+        http.csrf().disable().authorizeRequests().anyRequest().permitAll();
     }
 }

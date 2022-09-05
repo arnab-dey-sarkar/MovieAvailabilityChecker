@@ -44,6 +44,7 @@ public class MovieController {
         try {
             movieList=movieService.getMovies(location);
         } catch (Exception e) {
+           e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Movies", e);
         }
         if(movieList.size()==0)
