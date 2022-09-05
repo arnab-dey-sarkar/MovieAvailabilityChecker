@@ -13,7 +13,7 @@ public class DriverUtils {
     public static WebDriver createLocalDriver() throws Exception {
 
         /// HeadLess Mode
-        boolean headless = ConfigProvider.getAsBoolean("headLess");
+        boolean headless = ConfigProvider.getAsBoolean("headless");
         /// Architecture Selection
         Architecture archType = Architecture.DEFAULT;
         String arch = ConfigProvider.getAsString("arch.version");
@@ -21,15 +21,14 @@ public class DriverUtils {
             archType = Architecture.X32;
         else if (arch.equalsIgnoreCase("64"))
             archType = Architecture.X64;
-
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.setHeadless(headless);
-        WebDriverManager.chromedriver().architecture(archType).capabilities(options).setup();
-        driver=new ChromeDriver();
+        WebDriverManager.chromedriver().architecture(archType).setup();
+        driver=new ChromeDriver(options);
 
 
         return driver;
