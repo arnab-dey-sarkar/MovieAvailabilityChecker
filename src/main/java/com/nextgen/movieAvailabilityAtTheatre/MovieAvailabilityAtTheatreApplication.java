@@ -14,4 +14,5 @@ public class MovieAvailabilityAtTheatreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MovieAvailabilityAtTheatreApplication.class, args);
 	}
+
 }

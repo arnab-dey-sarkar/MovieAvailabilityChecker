@@ -14,10 +14,9 @@ COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 RUN mvn dependency:go-offline
 COPY ./src ./src
-RUN mvn clean install
+RUN mvn clean package
 
-
-FROM eclipse-temurin:17-jre-jammy
+FROM openjdk:8-jre-alpine
 WORKDIR /opt/app
 EXPOSE 8080
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
