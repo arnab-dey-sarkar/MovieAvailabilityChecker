@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @Configuration
 @ComponentScan
-@EnableScheduling
 public class MovieAvailabilityAtTheatreApplication {
     public static void main(String[] args) {
         SpringApplication.run(MovieAvailabilityAtTheatreApplication.class, args);
