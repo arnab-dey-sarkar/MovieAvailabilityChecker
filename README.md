@@ -1,4 +1,4 @@
-# MovieAvailabilityAtTheatre
+# MovieAvailabilityChecker
  This project is basically a Spring Boot service which retrieves data from BookMyShow UI using selenium. Selenium is running in headless mode to collect those theatre details and returns a response with the theatre names, address, showtimes  and seat prices for respective theatres if available for that day.This project also has Security implementation.There is one endpoint for generating JWT Token and then inorder to access the other endpoints we need to provide an Authorization Header with the value as Bearer {token}.
 
 
