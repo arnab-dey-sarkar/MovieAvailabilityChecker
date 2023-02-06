@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,19 +36,36 @@ public class MovieController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Theatres For Movie " + movieName, e);
         }
     }
+
     @RequestMapping(method = RequestMethod.GET, path = "/movies")
-    public ResponseEntity<?> getMovies(@RequestParam String location)
-    {
-        List<Movie> movieList=new ArrayList<>();
+    public ResponseEntity<?> getMovies(@RequestParam String location) {
+        List<Movie> movieList;
         try {
-            movieList=movieService.getMovies(location);
+            movieList = movieService.getMovies(location);
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Movies", e);
         }
-        if(movieList.size()==0)
+        if (movieList.size() == 0)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         else
-            return new ResponseEntity<>(movieList,HttpStatus.OK);
+            return new ResponseEntity<>(movieList, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/movies/{movieName}")
+    public ResponseEntity<?> checkIfMovieInTheatres(@RequestParam String location, @PathVariable("movieName") String movieName) {
+        List<Movie> movieList;
+        try {
+            movieList = movieService.getMovies(location);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Movies", e);
+        }
+        Optional<Movie> specificMovie = movieList.stream().filter(movie -> movie.getMovieName().toLowerCase().contains(movieName.toLowerCase())).findFirst();
+        if (specificMovie.isPresent())
+            return new ResponseEntity<>("Movie "+specificMovie.get().getMovieName()+" Available In " + location, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Movie Not Available In " + location, HttpStatus.OK);
+
     }
 }

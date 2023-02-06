@@ -4,21 +4,7 @@
 
 
 Endpoint Info: 
-POST/authenticate : validates the user credentials against the details present in H2 DB and then generates a JWT token as the response.
-
-Body->
-{
-    "username":"Arnab",
-    "password":"12345"
-}
-Output:-
-{
-    "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBcm5hYiIsImV4cCI6MTY2MDk5MTc2OCwiaWF0IjoxNjYwOTczNzY4fQ.cnkH69tgJbAQK968yTxRIjaMzPuYNZLtDraxiNiY32qVSszFdWk7wE6EUFi1ted1eNNm9r3uG7dgejaz1n_6hQ"
-}
-
-GET/movies : validates the JWT token and if validation is successful then retrieves the list of movies as per given location.
-
-Example- Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBcm5hYiIsImV4cCI6MTY2MDk5MjA5MywiaWF0IjoxNjYwOTc0MDkzfQ.qSPfQZJlgPvENQiOO18YmAdJ0bnpptbKhfHnUPAOhLdhlZHqh8_RzBsJctvVCzqWqVcCInbjrK9sC1YmQnSRMA
+GET/movies : Retrieves the list of movies as per given location.
 
 Query Parameters:- 
 
@@ -45,12 +31,7 @@ Output->
     }
 ]
 
-GET/movies/{movieName}/theatres: validates the JWT token and if validation is successful then retrieves the list of theatres as per input.
-Header-Bearer {token}
-
-Header-Bearer {token}
-
-Example- Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBcm5hYiIsImV4cCI6MTY2MDk5MjA5MywiaWF0IjoxNjYwOTc0MDkzfQ.qSPfQZJlgPvENQiOO18YmAdJ0bnpptbKhfHnUPAOhLdhlZHqh8_RzBsJctvVCzqWqVcCInbjrK9sC1YmQnSRMA
+GET/movies/{movieName}/theatres: Retrieves the list of theatres as per input.
 
 Path Parameters:- 
 
@@ -70,21 +51,15 @@ Query Parameters:-
 
 
 
-This project is deployed in Heroku as well. The link for accessing the deployed application is [https://lnkd.in/dKu6kbCS](https://movieavailabilitydetails.herokuapp.com)
+
 
 
 
 Example - 
 
-
-
 Performing a GET request on the below endpoint will result in the output provided below:-
 
-
-
 GET/movies/Laal Singh Chaddha/theatres?location=Kolkata&movieType=2D&movieLanguage=Hindi&theatreName=Diamond Plaza
-
-
 
 Output:-
 
