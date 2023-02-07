@@ -14,7 +14,6 @@ import sibModel.SendSmtpEmailTo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Component
 public class SendInBlueMailer {
