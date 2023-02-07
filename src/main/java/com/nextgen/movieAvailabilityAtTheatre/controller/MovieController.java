@@ -52,8 +52,8 @@ public class MovieController {
             return new ResponseEntity<>(movieList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/movies/{movieName}")
-    public ResponseEntity<?> checkIfMovieInTheatres(@RequestParam String location, @PathVariable("movieName") String movieName) {
+
+    public boolean checkIfMovieInTheatres(@RequestParam String location, @PathVariable("movieName") String movieName) {
         List<Movie> movieList;
         try {
             movieList = movieService.getMovies(location);
@@ -63,9 +63,9 @@ public class MovieController {
         }
         Optional<Movie> specificMovie = movieList.stream().filter(movie -> movie.getMovieName().toLowerCase().contains(movieName.toLowerCase())).findFirst();
         if (specificMovie.isPresent())
-            return new ResponseEntity<>("Movie "+specificMovie.get().getMovieName()+" Available In " + location, HttpStatus.OK);
+            return true;
         else
-            return new ResponseEntity<>("Movie Not Available In " + location, HttpStatus.OK);
+            return false;
 
     }
 }
