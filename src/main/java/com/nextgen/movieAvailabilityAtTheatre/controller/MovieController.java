@@ -52,20 +52,16 @@ public class MovieController {
             return new ResponseEntity<>(movieList, HttpStatus.OK);
     }
 
-
+    @RequestMapping(method = RequestMethod.GET, path = "/movies/movieName/check")
     public boolean checkIfMovieInTheatres(@RequestParam String location, @PathVariable("movieName") String movieName) {
-        List<Movie> movieList;
+
         try {
-            movieList = movieService.getMovies(location);
+            System.setProperty("movie", movieName);
+            System.setProperty("location", location);
+            return movieService.checkIfMovieInTheatres(location, movieName);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Movies", e);
         }
-        Optional<Movie> specificMovie = movieList.stream().filter(movie -> movie.getMovieName().toLowerCase().contains(movieName.toLowerCase())).findFirst();
-        if (specificMovie.isPresent())
-            return true;
-        else
-            return false;
-
     }
 }

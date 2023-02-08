@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,9 +114,13 @@ public class MovieService {
         if (driver != null) {
             driver.close();
             driver.quit();
+            driver = null;
+            driver = DriverUtils.createLocalDriver();
         }
-        driver = null;
-        driver = DriverUtils.createLocalDriver();
+        else
+        {
+            driver = DriverUtils.createLocalDriver();
+        }
         BasePageObject.setDriver(driver);
 
 
@@ -134,5 +139,18 @@ public class MovieService {
         else
             BasePageObject.clickElementJS("//li[contains(@data-name,'"+location+"')]");
         Thread.sleep(2000);
+    }
+    public boolean checkIfMovieInTheatres(String location, String movieName) {
+        List<Movie> movieList = new ArrayList<>();
+        try {
+            movieList = getMovies(location);
+        } catch (Exception e) {
+
+        }
+        Optional<Movie> specificMovie = movieList.stream().filter(movie -> movie.getMovieName().toLowerCase().contains(movieName.toLowerCase())).findFirst();
+        if (specificMovie.isPresent())
+            return true;
+        else
+            return false;
     }
 }
