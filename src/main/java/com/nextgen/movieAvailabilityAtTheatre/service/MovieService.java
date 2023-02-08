@@ -120,6 +120,7 @@ public class MovieService {
 
 
         driver.get(ConfigProvider.getAsString("ApplicationUrl"));
+        Thread.sleep(5000);
         try {
             BasePageObject.setInputvalue("//input[@placeholder='Search for your city']", location);
             Thread.sleep(2000);
