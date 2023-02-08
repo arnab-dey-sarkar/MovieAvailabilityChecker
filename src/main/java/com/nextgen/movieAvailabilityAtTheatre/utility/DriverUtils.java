@@ -32,7 +32,7 @@ public class DriverUtils {
         options.setExperimentalOption("useAutomationExtension", false);
 
         options.setHeadless(headless);
-        WebDriverManager.chromedriver().architecture(archType).create();
+        WebDriverManager.chromedriver().architecture(archType).setup();
         driver=new ChromeDriver(options);
         return driver;
     }
