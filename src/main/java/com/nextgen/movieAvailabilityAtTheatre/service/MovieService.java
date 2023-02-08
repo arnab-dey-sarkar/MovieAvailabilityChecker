@@ -82,7 +82,7 @@ public class MovieService {
                 moviePrices = mapper.readValue(price, MoviePrices[].class);
                 moviePricesList.add(moviePrices);
             } catch (Exception e) {
-                MoviePrices prices=new MoviePrices();
+                MoviePrices prices = new MoviePrices();
                 prices.setPrice("");
                 prices.setDesc("");
                 prices.setAvailabilityClass("_not available");
@@ -98,17 +98,17 @@ public class MovieService {
     }
 
     public List<Movie> getMovies(String location) throws Exception {
-        List<Movie> movieList=new ArrayList<>();
+        List<Movie> movieList = new ArrayList<>();
         accessBookMyShow(location);
-        List<WebElement> webElements=BasePageObject.getElements("//a[contains(@href,'bookmyshow.com/"+location.toLowerCase()+"/movies')]//img");
-        List<String> movies=webElements.stream().map(e->e.getAttribute("alt")).collect(Collectors.toList());
-        for(String movie:movies)
-        {
-            String language=BasePageObject.getText("//a[contains(@href,'bookmyshow.com/"+location.toLowerCase()+"/movies')]//div[text()='"+movie+"']/parent::div/following-sibling::div[2]//div");
-            movieList.add(new Movie(movie,language));
+        List<WebElement> webElements = BasePageObject.getElements("//a[contains(@href,'bookmyshow.com/" + location.toLowerCase() + "/movies')]//img");
+        List<String> movies = webElements.stream().map(e -> e.getAttribute("alt")).collect(Collectors.toList());
+        for (String movie : movies) {
+            String language = BasePageObject.getText("//a[contains(@href,'bookmyshow.com/" + location.toLowerCase() + "/movies')]//div[text()='" + movie + "']/parent::div/following-sibling::div[2]//div");
+            movieList.add(new Movie(movie, language));
         }
         return movieList;
     }
+
     public void accessBookMyShow(String location) throws Exception {
         if (driver != null) {
             driver.close();
@@ -127,8 +127,12 @@ public class MovieService {
             BasePageObject.clickElementJS("//strong[text()='" + location + "']");
         } catch (Exception e) {
         }
+        BasePageObject.TakeScreenshot();
         Thread.sleep(2000);
-        BasePageObject.clickElementJS("(//div/a[text()='Movies'])[1]");
+        if (BasePageObject.isPresent("(//div/a[text()='Movies'])[1]"))
+            BasePageObject.clickElementJS("(//div/a[text()='Movies'])[1]");
+        else
+            BasePageObject.clickElementJS("//li[contains(@data-name,'"+location+"')]");
         Thread.sleep(2000);
     }
 }
