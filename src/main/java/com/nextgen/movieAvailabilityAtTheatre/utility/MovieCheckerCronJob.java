@@ -1,12 +1,10 @@
 package com.nextgen.movieAvailabilityAtTheatre.utility;
 
-import com.nextgen.movieAvailabilityAtTheatre.controller.MovieController;
 import com.nextgen.movieAvailabilityAtTheatre.service.MovieService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 @Configuration
 @EnableScheduling

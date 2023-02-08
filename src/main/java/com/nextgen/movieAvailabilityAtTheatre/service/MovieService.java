@@ -38,6 +38,7 @@ public class MovieService {
         try {
             BasePageObject.Ele_presence_Wait("//div[contains(text(),'" + movieName + "')]/ancestor::a");
         } catch (Exception e) {
+            e.printStackTrace();
         }
         if (BasePageObject.isPresent("//div[contains(text(),'" + movieName + "')]/ancestor::a")) {
             try {
@@ -56,7 +57,7 @@ public class MovieService {
                     List<WebElement> showTimesElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div/div");
                     List<WebElement> priceStatsElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div//a");
 
-                    List<String> showTimes = showTimesElements.stream().map(e -> e.getText()).filter(t -> t.contains("AM") || t.contains("PM")).collect(Collectors.toList());
+                    List<String> showTimes = showTimesElements.stream().map(WebElement::getText).filter(t -> t.contains("AM") || t.contains("PM")).collect(Collectors.toList());
                     List<String> priceStats = priceStatsElements.stream().map(m -> m.getAttribute("data-cat-popup")).collect(Collectors.toList());
 
                     HashMap<String, MoviePrices[]> map = mapTimeToPrices(showTimes, priceStats);
@@ -119,10 +120,8 @@ public class MovieService {
             driver.close();
             driver.quit();
             driver = null;
-            driver = DriverUtils.createLocalDriver();
-        } else {
-            driver = DriverUtils.createLocalDriver();
         }
+        driver = DriverUtils.createLocalDriver();
         BasePageObject.setDriver(driver);
 
 
@@ -133,6 +132,7 @@ public class MovieService {
             Thread.sleep(2000);
             BasePageObject.clickElementJS("//strong[text()='" + location + "']");
         } catch (Exception e) {
+            e.printStackTrace();
         }
         BasePageObject.TakeScreenshot();
         Thread.sleep(2000);
@@ -148,12 +148,10 @@ public class MovieService {
         try {
             movieList = getMovies(location);
         } catch (Exception e) {
+            e.printStackTrace();
 
         }
         Optional<Movie> specificMovie = movieList.stream().filter(movie -> movie.getMovieName().toLowerCase().contains(movieName.toLowerCase())).findFirst();
-        if (specificMovie.isPresent())
-            return true;
-        else
-            return false;
+        return specificMovie.isPresent();
     }
 }

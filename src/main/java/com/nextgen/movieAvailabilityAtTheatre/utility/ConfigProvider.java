@@ -27,9 +27,7 @@ public class ConfigProvider {
 				e.printStackTrace();
 				throw new RuntimeException("Configuration.properties not found at " + propertyFilePath);
 			}
-			if (properties.getProperty(property) == null)
-				continue;
-			else
+			if (properties.getProperty(property) != null)
 				return properties.getProperty(property);
 		}
 		throw new Exception("Property Not Found");

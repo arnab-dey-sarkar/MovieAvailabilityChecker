@@ -9,7 +9,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 public class DriverUtils {
-    private static WebDriver driver;
 
 
     public static WebDriver createLocalDriver() throws Exception {
@@ -28,7 +27,7 @@ public class DriverUtils {
         options.addArguments("--window-size=1920,1080");
         options.addArguments("disable-infobars"); // disabling infobars
         options.addArguments("--disable-extensions"); // disabling extensions
-        options.addArguments("--disable-gpu"); // applicable to windows os only
+        options.addArguments("--disable-gpu"); // applicable to Windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
         //options.addArguments("--remote-debugging-port=9230");
@@ -42,7 +41,6 @@ public class DriverUtils {
             WebDriverManager.chromedriver().architecture(archType).avoidBrowserDetection().browserInDocker().setup();
         else
             WebDriverManager.chromedriver().browserVersion(ConfigProvider.getAsString("chrome.version")).architecture(archType).avoidBrowserDetection().browserInDocker().setup();
-        driver = new ChromeDriver(options);
-        return driver;
+        return new ChromeDriver(options);
     }
 }
