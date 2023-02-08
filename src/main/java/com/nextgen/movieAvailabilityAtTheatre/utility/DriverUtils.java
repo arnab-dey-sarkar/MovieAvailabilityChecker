@@ -22,18 +22,12 @@ public class DriverUtils {
         else if (arch.equalsIgnoreCase("64"))
             archType = Architecture.X64;
         ChromeOptions options = new ChromeOptions();
-        /*if(headless)
-            options.addArguments("--headless");*/
-        options.addArguments("--start-maximized");
-        //options.addArguments("--window-size=1920,1080");
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-gpu");
-        /*options.addArguments("--disable-extensions");
-        options.setExperimentalOption("useAutomationExtension", false);
-        options.addArguments("--proxy-server='direct://'");
-        options.addArguments("--proxy-bypass-list=*");*/
+        options.addArguments("--start-maximized");// open Browser in maximized mode
+        options.addArguments("disable-infobars"); // disabling infobars
+        options.addArguments("--disable-extensions"); // disabling extensions
+        options.addArguments("--disable-gpu"); // applicable to windows os only
+        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        options.addArguments("--no-sandbox"); // Bypass OS security model
 
         options.setHeadless(headless);
         WebDriverManager.chromedriver().architecture(archType).create();
