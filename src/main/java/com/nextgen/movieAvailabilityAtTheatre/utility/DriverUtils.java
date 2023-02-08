@@ -28,6 +28,8 @@ public class DriverUtils {
         options.addArguments("--disable-gpu"); // applicable to windows os only
         options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
         options.addArguments("--no-sandbox"); // Bypass OS security model
+        options.addArguments("--remote-debugging-port=9222");
+        options.setExperimentalOption("useAutomationExtension", false);
 
         options.setHeadless(headless);
         WebDriverManager.chromedriver().architecture(archType).create();
