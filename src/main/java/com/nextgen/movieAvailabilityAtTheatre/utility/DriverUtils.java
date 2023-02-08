@@ -30,13 +30,13 @@ public class DriverUtils {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
-        options.addArguments("--disable-extensions");
+        /*options.addArguments("--disable-extensions");
         options.setExperimentalOption("useAutomationExtension", false);
         options.addArguments("--proxy-server='direct://'");
-        options.addArguments("--proxy-bypass-list=*");
+        options.addArguments("--proxy-bypass-list=*");*/
 
         options.setHeadless(headless);
-        WebDriverManager.chromedriver().architecture(archType).browserInDocker().setup();
+        WebDriverManager.chromedriver().architecture(archType).create();
         driver=new ChromeDriver(options);
         return driver;
     }
