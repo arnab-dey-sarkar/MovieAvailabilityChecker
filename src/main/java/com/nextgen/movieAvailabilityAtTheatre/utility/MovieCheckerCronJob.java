@@ -17,5 +17,7 @@ public class MovieCheckerCronJob {
     {
         if(movieController.checkIfMovieInTheatres("Kolkata","Ant-Man"))
             sendInBlueMailer.sendMail("Arnab Dey Sarkar","a.d.sarkar1990@gmail.com","Movie Tickets Available Now In Kolkata For Antman");
+        else
+            sendInBlueMailer.sendMail("Arnab Dey Sarkar","a.d.sarkar1990@gmail.com","No Movie Tickets Available As Of Now In Kolkata For Antman");
     }
 }
