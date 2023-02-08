@@ -40,28 +40,32 @@ public class MovieService {
         } catch (Exception e) {
         }
         if (BasePageObject.isPresent("//div[contains(text(),'" + movieName + "')]/ancestor::a")) {
-            BasePageObject.clickElementJS("//div[contains(text(),'" + movieName + "')]/ancestor::a");
-            Thread.sleep(1000);
-            BasePageObject.clickElement("(//button//div//span[text()='Book tickets'])[1]");
-            Thread.sleep(1000);
-            if (BasePageObject.isPresent("//h5[contains(text(),'Select language and format')]"))
-                BasePageObject.clickElementJS("//span[contains(text(),'" + movieLanguage + "')]/parent::section/following-sibling::section//div//span[text()='" + movieType + "']");
+            try {
+                BasePageObject.clickElementJS("//div[contains(text(),'" + movieName + "')]/ancestor::a");
+                Thread.sleep(1000);
+                BasePageObject.clickElement("(//button//div//span[text()='Book tickets'])[1]");
+                Thread.sleep(1000);
+                if (BasePageObject.isPresent("//h5[contains(text(),'Select language and format')]"))
+                    BasePageObject.clickElementJS("//span[contains(text(),'" + movieLanguage + "')]/parent::section/following-sibling::section//div//span[text()='" + movieType + "']");
 
-            BasePageObject.Ele_presence_Wait("//a[@class='__venue-name']");
-            List<WebElement> venueNames = BasePageObject.getElements("//a[@class='__venue-name']");
+                BasePageObject.Ele_presence_Wait("//a[@class='__venue-name']");
+                List<WebElement> venueNames = BasePageObject.getElements("//a[@class='__venue-name']");
 
-            for (int i = 0; i < venueNames.size(); i++) {
-                String vName = venueNames.get(i).getText();
-                List<WebElement> showTimesElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div/div");
-                List<WebElement> priceStatsElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div//a");
+                for (int i = 0; i < venueNames.size(); i++) {
+                    String vName = venueNames.get(i).getText();
+                    List<WebElement> showTimesElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div/div");
+                    List<WebElement> priceStatsElements = BasePageObject.getElements("(//a[@class='__venue-name']/ancestor::div[@class='listing-info']/following-sibling::div)[" + (i + 1) + "]/div//div//a");
 
-                List<String> showTimes = showTimesElements.stream().map(e -> e.getText()).filter(t -> t.contains("AM") || t.contains("PM")).collect(Collectors.toList());
-                List<String> priceStats = priceStatsElements.stream().map(m -> m.getAttribute("data-cat-popup")).collect(Collectors.toList());
+                    List<String> showTimes = showTimesElements.stream().map(e -> e.getText()).filter(t -> t.contains("AM") || t.contains("PM")).collect(Collectors.toList());
+                    List<String> priceStats = priceStatsElements.stream().map(m -> m.getAttribute("data-cat-popup")).collect(Collectors.toList());
 
-                HashMap<String, MoviePrices[]> map = mapTimeToPrices(showTimes, priceStats);
+                    HashMap<String, MoviePrices[]> map = mapTimeToPrices(showTimes, priceStats);
 
-                MovieTheatres movieTheatre = new MovieTheatres(vName, map);
-                movieTheatres.add(movieTheatre);
+                    MovieTheatres movieTheatre = new MovieTheatres(vName, map);
+                    movieTheatres.add(movieTheatre);
+                }
+            } catch (Exception e) {
+                movieTheatres.add(new MovieTheatres("Movie Not Found", new HashMap<>()));
             }
         } else {
             System.out.println("Movie Not Found");
@@ -116,9 +120,7 @@ public class MovieService {
             driver.quit();
             driver = null;
             driver = DriverUtils.createLocalDriver();
-        }
-        else
-        {
+        } else {
             driver = DriverUtils.createLocalDriver();
         }
         BasePageObject.setDriver(driver);
@@ -137,9 +139,10 @@ public class MovieService {
         if (BasePageObject.isPresent("(//div/a[text()='Movies'])[1]"))
             BasePageObject.clickElementJS("(//div/a[text()='Movies'])[1]");
         else
-            BasePageObject.clickElementJS("//li[contains(@data-name,'"+location+"')]");
+            BasePageObject.clickElementJS("//li[contains(@data-name,'" + location + "')]");
         Thread.sleep(2000);
     }
+
     public boolean checkIfMovieInTheatres(String location, String movieName) {
         List<Movie> movieList = new ArrayList<>();
         try {
