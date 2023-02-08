@@ -12,7 +12,7 @@ public class MovieCheckerCronJob {
     @Autowired
     MovieController movieController;
     @Autowired SendInBlueMailer sendInBlueMailer;
-    //@Scheduled(cron = "*    *    5    *    *    *", zone = "IST")
+    @Scheduled(cron = "*    *    5    *    *    *", zone = "IST")
     public void scheduleMovieCheck()
     {
         if(movieController.checkIfMovieInTheatres("Kolkata","Ant-Man"))
