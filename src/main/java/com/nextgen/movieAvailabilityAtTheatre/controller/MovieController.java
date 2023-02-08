@@ -52,8 +52,8 @@ public class MovieController {
             return new ResponseEntity<>(movieList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/movies/movieName/check")
-    public boolean checkIfMovieInTheatres(@RequestParam String location, @PathVariable("movieName") String movieName) {
+    @RequestMapping(method = RequestMethod.GET, path = "/movies/check")
+    public boolean checkIfMovieInTheatres(@RequestParam String location, @RequestParam String movieName) {
 
         try {
             System.setProperty("movie", movieName);
