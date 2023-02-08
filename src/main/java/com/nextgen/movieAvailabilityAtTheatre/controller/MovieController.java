@@ -4,6 +4,7 @@ import com.nextgen.movieAvailabilityAtTheatre.model.Movie;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieDetails;
 import com.nextgen.movieAvailabilityAtTheatre.model.MovieTheatres;
 import com.nextgen.movieAvailabilityAtTheatre.service.MovieService;
+import com.nextgen.movieAvailabilityAtTheatre.utility.MovieCheckerCronJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class MovieController {
     @Autowired
     MovieService movieService;
+    @Autowired
+    MovieCheckerCronJob movieCheckerCronJob;
 
     @RequestMapping(method = RequestMethod.GET, path = "/movies/{movieName}/theatres")
     public ResponseEntity<?> getTheatresForMovie(@PathVariable("movieName") String movieName, @RequestParam String location, @RequestParam String movieType, @RequestParam String movieLanguage, @RequestParam(required = false) Optional<String> theatreName) throws Exception {
@@ -53,12 +56,12 @@ public class MovieController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/movies/check")
-    public boolean checkIfMovieInTheatres(@RequestParam String location, @RequestParam String movieName) {
+    public void checkIfMovieInTheatres(@RequestParam String location, @RequestParam String movieName) {
 
         try {
             System.setProperty("movie", movieName);
             System.setProperty("location", location);
-            return movieService.checkIfMovieInTheatres(location, movieName);
+            movieCheckerCronJob.scheduleMovieCheck();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error Occurred In Retrieving Movies", e);

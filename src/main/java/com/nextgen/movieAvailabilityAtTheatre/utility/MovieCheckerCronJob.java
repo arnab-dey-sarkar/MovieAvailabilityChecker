@@ -16,7 +16,7 @@ public class MovieCheckerCronJob {
     @Autowired
     SendInBlueMailer sendInBlueMailer;
 
-    @Scheduled(cron = "*    */10    *    *    *    *", zone = "IST")
+    @Scheduled(cron = "* */10 * * * *", zone = "IST")
     public void scheduleMovieCheck() {
         String movieName = System.getProperty("movie");
         String location = System.getProperty("location");
