@@ -32,7 +32,7 @@ public class DriverUtils {
         options.setExperimentalOption("useAutomationExtension", false);
 
         options.setHeadless(headless);
-        WebDriverManager.chromedriver().architecture(archType).setup();
+        WebDriverManager.chromedriver().architecture(archType).avoidBrowserDetection().browserInDocker().enableVnc().enableRecording().setup();
         driver=new ChromeDriver(options);
         return driver;
     }
