@@ -9,6 +9,6 @@ import lombok.*;
 @Setter
 @ToString
 public class Movie {
-    private String movieName;
-    private String language;
+	private String movieName;
+	private String language;
 }

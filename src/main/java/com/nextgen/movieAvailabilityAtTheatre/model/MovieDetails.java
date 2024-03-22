@@ -8,8 +8,8 @@ import lombok.*;
 @Setter
 @ToString
 public class MovieDetails {
-    private String location;
-    private String movieName;
-    private String movieType;
-    private String movieLanguage;
+	private String location;
+	private String movieName;
+	private String movieType;
+	private String movieLanguage;
 }

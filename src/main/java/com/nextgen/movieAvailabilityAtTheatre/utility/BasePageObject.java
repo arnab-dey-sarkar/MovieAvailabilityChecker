@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 public class BasePageObject
 {
 	public static WebDriver driver;
-	
-	
+
+
 	public static void setDriver(WebDriver newDriver) {
 		driver=newDriver;
 	}
@@ -93,13 +93,13 @@ public class BasePageObject
 	}
 //takes the screenshot and stores it in Screenshots folder
 	public static String TakeScreenshot() throws Exception{
-		String fileWithPath="Screenshots\\Screenshot"+System.currentTimeMillis()+".png";	
-        TakesScreenshot scrShot =((TakesScreenshot)driver);
-        File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
-        File DestFile=new File(fileWithPath);
-        FileUtils.copyFile(SrcFile, DestFile);
-        return fileWithPath;
-    }
+		String fileWithPath="Screenshots\\Screenshot"+System.currentTimeMillis()+".png";
+		TakesScreenshot scrShot =((TakesScreenshot)driver);
+		File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+		File DestFile=new File(fileWithPath);
+		FileUtils.copyFile(SrcFile, DestFile);
+		return fileWithPath;
+	}
 	//scrolls down until the given element is visible in the webpage
 	public static void scrollUntilElementVisible(String locator) throws InterruptedException
 	{

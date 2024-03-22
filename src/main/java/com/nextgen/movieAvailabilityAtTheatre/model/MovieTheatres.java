@@ -9,7 +9,7 @@ import java.util.HashMap;
 @Setter
 @ToString
 public class MovieTheatres {
-    private String name;
-    private HashMap<String,MoviePrices[]> showTimesWithPriceStats;
+	private String name;
+	private HashMap<String,MoviePrices[]> showTimesWithPriceStats;
 
 }

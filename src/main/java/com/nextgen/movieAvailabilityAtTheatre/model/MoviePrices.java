@@ -8,8 +8,8 @@ import lombok.*;
 @Setter
 @ToString
 public class MoviePrices {
-    private String price;
-    private String desc;
-    private String availabilityClass;
-    private String availabilityText;
+	private String price;
+	private String desc;
+	private String availabilityClass;
+	private String availabilityText;
 }
