@@ -32,7 +32,7 @@ public class MovieController {
 				movieTheatres = movieService.getTheatres(movieDetails).stream().filter(m -> m.getName().contains(theatreName)).collect(Collectors.toList());
 			else
 				movieTheatres = movieService.getTheatres(movieDetails);
-			if (movieTheatres.size() == 0)
+			if (movieTheatres.isEmpty())
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(movieTheatres, HttpStatus.OK);
 		} catch (Exception e) {

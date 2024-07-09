@@ -4,9 +4,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class MovieDetails {
 	private String location;
 	private String movieName;
